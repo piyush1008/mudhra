@@ -16,22 +16,33 @@ datasource db {
 
 model User{
   id              Int @id @default(autoincrement())
-  name        String
+  name            String @unique
   email           String @unique
   password        String
+  image           String?
   accountInfo     AccountInfo?
 }
 
 model AccountInfo{
   id                  Int @id @default(autoincrement())
-  userId              Int @unique
+  email               String @unique
   accnt_number        Int @unique
   account_holder_Name String
+  address             Address?
   account_type        AccountType @default(SAVING)
-  user                User @relation(fields: [userId],references: [id]) 
+  user                User @relation(fields: [email],references: [email]) 
   transcation         TranscationInfo[]  
 }
 
+model Address{
+   id          Int @id @default(autoincrement())
+   email       String @unique
+   country     String?
+   city        String?
+   street      String?
+   zipcode     String?
+   account     AccountInfo @relation(fields: [email], references: [email])
+}
 model TranscationInfo{
   id          Int @id @default(autoincrement())
   to_account  Int

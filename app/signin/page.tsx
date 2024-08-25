@@ -1,31 +1,26 @@
 "use client"
-import { signIn } from 'next-auth/react';
+import { Card } from '@/components/Card';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default function() {
+// function getUser(){
+//     const session= useSession();
+//     console.log("session inside the sigin are",  session.data);
+//     return session; 
+// }
+
+export default  function Signin() {
+    const { data: session, status } = useSession();
     const router = useRouter();
 
-    return <div>
-        <button onClick={async () => {
-            await signIn("google");
-        }}>Login with google</button>
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
 
-        <br />
-        <input type="text" placeholder='username' />
-        <input type="email" placeholder='abc@hp.com' />
-        <input type="password" placeholder='123' />
-
-
-        <button onClick={async () => {
-            const res = await signIn("credentials", {
-                name: "",
-                email: "",
-                password:"",
-                redirect: false,
-            });
-            console.log(res);
-            router.push("/")
-        }}>Login with email</button>
-        
-    </div>
+    return (<div className='flex flex-row min-h-screen justify-center items-center'>
+       <Card  cardtitle={"Sign in to out platform"} emailText={"Your email"} passwordText={"your password"} buttonText={"Login to your account"}/>
+    </div>)
 }
