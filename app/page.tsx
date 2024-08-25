@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Appbar } from "./Appbar";
 import { getServerSession } from "next-auth";
 import { Navbar } from "@/components/Navbar";
 import { Authentication } from "@/components/Authentication";
